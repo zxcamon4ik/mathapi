@@ -1,22 +1,21 @@
+import environ
 from pathlib import Path
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 APPS_DIR = BASE_DIR / "apps"
 
+env = environ.FileAwareEnv()
+env.read_env(BASE_DIR.joinpath(".env"))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure--__%r)3yov+@$7ez6ec65$)7+k%2(f_b#l7te*)r-c+gzv61op'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DJANGO__DEBUG", False)
+ALLOWED_HOSTS = env.list("DJANGO__ALLOWED_HOSTS", default=[])
 
-ALLOWED_HOSTS = ["127.0.0.1", "172.17.0.1", "site.homework.local.net"]
-
-
-# Application definition
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -110,6 +109,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STORAGE_URL = "storage"
+STORAGE_ROOT = BASE_DIR / "storage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
