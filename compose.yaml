@@ -29,5 +29,5 @@ services:
       - full_dev
       - local_dev
 
-  site.local.homework.net:
+  site.homework.local.net:
     build: .

@@ -174,10 +174,7 @@ migrate:
 	@python manage.py migrate
 
 
-.PHONY: django-init-animals
-# Generate animals
-django-init-animals:
-	@python manage.py generate_animals --async --amount 23 --only-if-empty
+
 
 .PHONY: django-init-db-data
 # Generate data for db
@@ -185,7 +182,4 @@ django-init-db-data:
 	@make django-init-animals
 
 
-.PHONY: init-dev-i-create-superuser
-# Create superuser
-init-dev-i-create-superuser:
-	@DJANGO_SUPERUSER_PASSWORD=admin123 python manage.py createsuperuser --user admin --email admin@gmail.com --no-input
+

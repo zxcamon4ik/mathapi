@@ -16,7 +16,6 @@ set -o xtrace
 # Apply database migrations.
 make migrate
 
-make django-init-db-data
 # [init]-[END]
 
-python manage.py runserver site.local.homework.net:45001
+python manage.py runserver site.homework.local.net:8000
