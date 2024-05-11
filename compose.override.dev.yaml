@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  site.local.homework.net:
+    ports:
+    - "48000:48000"
+    command: /start.sh
+
+    user: "${UID-1000}"
+    env_file:
+      - .env
+
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+
+    volumes:
+      - ./storage:/wd/media:rw
+
+  postgres:
+    ports:
+      - "45001:5432"

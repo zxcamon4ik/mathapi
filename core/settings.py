@@ -12,7 +12,7 @@ env.read_env(BASE_DIR.joinpath(".env"))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure--__%r)3yov+@$7ez6ec65$)7+k%2(f_b#l7te*)r-c+gzv61op'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with debug turned on 2in production!
 DEBUG = env.bool("DJANGO__DEBUG", False)
 ALLOWED_HOSTS = env.list("DJANGO__ALLOWED_HOSTS", default=[])
 
@@ -70,10 +70,13 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / "db" / 'db.sqlite3',
-    }
+    'default': env.db_url_config(
+        env.str(
+            "DJANGO__DATABASE_URL",
+            f"postgres://{env.str('POSTGRES_USER')}:{env.str('POSTGRES_PASSWORD')}@"
+            f"{env.str('POSTGRES_HOST')}:{env.int('POSTGRES_PORT')}/{env.str('POSTGRES_DB')}",
+        ),
+    ),
 }
 
 

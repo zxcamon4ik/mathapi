@@ -1,0 +1,33 @@
+version: "3.8"
+
+volumes:
+  postgres_data: {}
+
+services:
+  postgres:
+    image: postgres:16.2-alpine3.19
+
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready --username ${POSTGRES_USER}  --dbname ${POSTGRES_DB}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:rw
+
+    profiles:
+      - full_dev
+      - local_dev
+
+  site.local.homework.net:
+    build: .
