@@ -18,4 +18,4 @@ make migrate
 
 # [init]-[END]
 
-python manage.py runserver site.homework.local.net:8000
+python manage.py runserver site.homework.local.net:48000

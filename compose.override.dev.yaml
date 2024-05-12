@@ -3,7 +3,7 @@ version: "3.8"
 services:
   site.homework.local.net:
     ports:
-      - "48000:8000"
+      - "48000:48000"
     command: /start.sh
 
     user: "${UID-1000}"
@@ -20,3 +20,17 @@ services:
   postgres:
     ports:
       - "53421:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4:8.6
+
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL:-adminka@gmail.com}"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD:-zxc1234}"
+
+    ports:
+      - "45050:80"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
