@@ -1,5 +1,11 @@
+#Core/Django-things
 django==5.0.5
-ruff==0.4.3
 django-environ==0.11.2
 psycopg==3.1.19
 psycopg2-binary==2.9.9
+
+#Linters/
+ruff==0.4.3
+
+#Math_things
+sympy==1.12
