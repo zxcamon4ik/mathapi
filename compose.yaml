@@ -1,33 +1,52 @@
-version: "3.8"
-
-volumes:
-  postgres_data: {}
-
 services:
   postgres:
     image: postgres:16.2-alpine3.19
-
     environment:
       POSTGRES_DB: "${POSTGRES_DB}"
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready --username ${POSTGRES_USER}  --dbname ${POSTGRES_DB}",
-        ]
+      test: ["CMD-SHELL", "pg_isready --username ${POSTGRES_USER} --dbname ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
-
+    ports:
+      - "53421:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data:rw
 
-    profiles:
-      - full_dev
-      - local_dev
-
   site.homework.local.net:
     build: .
+    ports:
+      - "48000:48000"
+    command: /start.sh
+    user: "${UID-1000}"
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+    volumes:
+      - ./storage:/wd/storage:rw
+    depends_on:
+      - postgres
+
+  pgadmin:
+    image: dpage/pgadmin4:8.6
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL:-adminka@gmail.com}"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD:-zxc1234}"
+    ports:
+      - "45050:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  dbshell:
+    image: alpine:latest
+    command: tail -f /dev/null
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:rw
+
+volumes:
+  postgres_data: {}

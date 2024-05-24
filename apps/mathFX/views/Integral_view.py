@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from ..service import integral, undefined_integral
+from ..models import IntegralResult
 
 
 def calculate_integral(request, const, func, n1, n2):

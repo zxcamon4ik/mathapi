@@ -166,12 +166,12 @@ install-black:
 .PHONY: migrations
 # Make migrations
 migrations:
-	@python manage.py makemigrations
+	@python manage.py makemigrations mathFX
 
 .PHONY: migrate
 # Migrate
 migrate:
-	@python manage.py migrate
+	@python manage.py migrate mathFX
 
 
 
